@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "severity": "CRITICAL",
+    "title": "API Latency > 500ms",
+    "time": "09:14",
+    "status": "Active",
+    "timeline": [
+      "09:14 — Alert Triggered",
+      "09:16 — Engineer Assigned",
+      "09:19 — Logs Reviewed"
+    ]
+  },
+
+  {
+    "id": 2,
+    "severity": "HIGH",
+    "title": "TLS Certificate Expiring (example.com)",
+    "time": "09:18",
+    "status": "Active",
+    "timeline": [
+      "09:18 — Alert Triggered",
+      "09:20 — Certificate Expiry Detected"
+    ]
+  },
+
+  {
+    "id": 3,
+    "severity": "MEDIUM",
+    "title": "Disk Usage > 85% (/var/log)",
+    "time": "09:22",
+    "status": "Active",
+    "timeline": [
+      "09:22 — Alert Triggered"
+    ]
+  },
+
+  {
+    "id": 4,
+    "severity": "HIGH",
+    "title": "Unauthorized Login Attempt Detected",
+    "time": "09:30",
+    "status": "Active",
+    "timeline": [
+      "09:30 — Alert Triggered",
+      "09:31 — Suspicious IP Detected"
+    ]
+  },
+
+  {
+    "id": 5,
+    "severity": "CRITICAL",
+    "title": "Database Connection Failures",
+    "time": "09:34",
+    "status": "Active",
+    "timeline": [
+      "09:34 — Alert Triggered",
+      "09:36 — Connection Pool Exhausted"
+    ]
+  },
+
+  {
+    "id": 6,
+    "severity": "MEDIUM",
+    "title": "Memory Usage > 75%",
+    "time": "09:40",
+    "status": "Active",
+    "timeline": [
+      "09:40 — Alert Triggered"
+    ]
+  }
+]

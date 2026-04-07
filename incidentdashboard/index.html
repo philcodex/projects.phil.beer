@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Incident Response Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>🚨 Incident Response Dashboard</h1>
+
+<!-- System Status -->
+<div class="status-banner">
+System Status: Operational
+</div>
+
+<!-- Summary -->
+<div class="summary">
+
+<div class="card">
+<h3>Active</h3>
+<p id="activeCount">0</p>
+</div>
+
+<div class="card">
+<h3>Resolved</h3>
+<p id="resolvedCount">0</p>
+</div>
+
+<div class="card">
+<h3>MTTR</h3>
+<p>18 min</p>
+</div>
+
+</div>
+
+<!-- Alerts -->
+<h2>Active Alerts</h2>
+
+<div id="alerts"></div>
+
+<!-- Details -->
+<div id="incidentDetails">
+
+<h2>Incident Details</h2>
+
+<pre id="logs">
+Select an incident to view logs
+</pre>
+
+</div>
+
+<h2>Incident Timeline</h2>
+
+<div id="timeline">
+
+<p>Select an incident to view timeline</p>
+
+</div>
+
+<!-- Notes -->
+<h2>Engineer Notes</h2>
+
+<textarea id="notes"></textarea>
+
+</body>
+</html>
