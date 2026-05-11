@@ -111,8 +111,6 @@
     transform-origin: bottom;
   }
 
-
-  
   .project-card:hover {
     background: #FDFAF4;
   }
@@ -170,12 +168,20 @@
     animation: fadeUp 0.4s ease both;
   }
 
-  .project-card:nth-child(1) { animation-delay: 0.05s; }
-  .project-card:nth-child(2) { animation-delay: 0.1s; }
-  .project-card:nth-child(3) { animation-delay: 0.15s; }
-  .project-card:nth-child(4) { animation-delay: 0.2s; }
-  .project-card:nth-child(5) { animation-delay: 0.25s; }
-  .project-card:nth-child(6) { animation-delay: 0.3s; }
+  .project-card:nth-child(1)  { animation-delay: 0.05s; }
+  .project-card:nth-child(2)  { animation-delay: 0.10s; }
+  .project-card:nth-child(3)  { animation-delay: 0.15s; }
+  .project-card:nth-child(4)  { animation-delay: 0.20s; }
+  .project-card:nth-child(5)  { animation-delay: 0.25s; }
+  .project-card:nth-child(6)  { animation-delay: 0.30s; }
+  .project-card:nth-child(7)  { animation-delay: 0.35s; }
+  .project-card:nth-child(8)  { animation-delay: 0.40s; }
+  .project-card:nth-child(9)  { animation-delay: 0.45s; }
+  .project-card:nth-child(10) { animation-delay: 0.50s; }
+  .project-card:nth-child(11) { animation-delay: 0.55s; }
+  .project-card:nth-child(12) { animation-delay: 0.60s; }
+  .project-card:nth-child(13) { animation-delay: 0.65s; }
+  .project-card:nth-child(14) { animation-delay: 0.70s; }
 </style>
 </head>
 <body>
@@ -211,31 +217,31 @@
       <div class="project-tag">Python 3.12 · pyenv · GitHub</div>
     </a>
 
-    <a href="https://philcodex.github.io/phil-space/" class="project-card">
-      <div class="project-number">04</div>
-      <div class="project-name">Portfolio Site</div>
-      <div class="project-desc">Personal Jekyll/GitHub Pages site with light/dark theme and Things I Learned page.</div>
-      <div class="project-tag">Jekyll · GitHub Pages · CSS</div>
+    <a href="#" class="project-card">
+      <div class="project-number">05</div>
+      <div class="project-name">CLI Weather App</div>
+      <div class="project-desc">Fetch current weather by city name from the OpenWeatherMap API via the command line.</div>
+      <div class="project-tag">Python · Requests · argparse</div>
+    </a>
+    <a href="#" class="project-card">
+      <div class="project-number">10</div>
+      <div class="project-name">Uptime Monitor</div>
+      <div class="project-desc">Ping a list of URLs on a schedule and log response times and status codes over time.</div>
+      <div class="project-tag">Python · Requests · logging</div>
     </a>
 
-    <!-- <a href="/saas-security-lab" class="project-card">
-      <div class="project-number">05</div>
-      <div class="project-name">SaaS Security Lab</div>
-      <div class="project-desc">Detection engine and brute force simulator with Streamlit dashboard.</div>
-      <div class="project-tag">FastAPI · Streamlit · Python</div>
-    </a> -->
-
     <a href="#" class="project-card">
-      <div class="project-number">06</div>
-      <div class="project-name">More soon</div>
-      <div class="project-desc">New experiments in progress. Check back shortly.</div>
-      <div class="project-tag">—</div>
+      <div class="project-number">11</div>
+      <div class="project-name">DNS Lookup Tool</div>
+      <div class="project-desc">Query A, MX, and CNAME records for any domain. Directly relevant to CDN and hosting work.</div>
+      <div class="project-tag">Python · dnspython</div>
     </a>
 
   </div>
-<br>
-<div class="section-label">current roadmap</div>
-  
+
+  <br>
+  <div class="section-label">current roadmap</div>
+
   <ul style="list-style: none; color: var(--muted); font-size: 0.72rem; line-height: 2; font-weight: 300; padding-left: 0.5rem;">
     <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Create photography portfolio (Jekyll-based)</li>
     <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Build a real-time TLS handshake analyzer</li>
@@ -243,8 +249,24 @@
     <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Open-source the Latency Monitor dashboard</li>
     <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Refine the "Things I Learned" markdown parser</li>
   </ul>
-</main>    
 
+  <br>
+  <div class="section-label">planned future projects</div>
+
+  <ul style="list-style: none; color: var(--muted); font-size: 0.72rem; line-height: 2; font-weight: 300; padding-left: 0.5rem;">
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> CLI Weather App — fetch current weather by city via OpenWeatherMap</li>
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Markdown to HTML — convert .md files to clean .html output</li>
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Link Checker — crawl URLs and report 4xx/5xx failures</li>
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> CSV Data Cleaner — normalise and sanitise messy CSV exports</li>
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Port Scanner — report open ports across a hostname and range</li>
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Uptime Monitor — log response times and status codes on a schedule</li>
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> DNS Lookup Tool — query A, MX, and CNAME records for any domain</li>
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Password Generator — CLI tool with flags for length and complexity</li>
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> GitHub Repo Stats — pull commit counts and language breakdown via API</li>
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Log Parser — extract and summarise status codes from IIS/Apache logs</li>
+    <li><span style="color: var(--gold); margin-right: 8px;">&gt;</span> Simple holding pages log</li>
+    
+  </ul>
 </main>
 
 <footer>
