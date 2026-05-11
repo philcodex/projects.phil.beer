@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+
+
+  <!--
+  You have found this page and this comment.
+  This comment is pointless.
+  There is nothing here.
+  You are wasting your time.
+  -->
+
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404</title>
+  <style>
+    :root{
+      --bg:#000;
+      --green:#00ff4a;
+    }
+
+    html, body{
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      overflow:hidden;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    /* Full-page “gobbledegook” */
+      .noise{
+    position:fixed;
+    inset:0;
+    padding:0;
+    margin:0;
+    color:var(--green);
+    font-size:clamp(6px,0.9vw,10px);
+    line-height:1.05;
+    text-align:justify;
+    text-justify:inter-character;
+    white-space:normal;
+    word-break:break-all;
+  }
+  </style>
+</head>
+<body>
+
+  <div class="noise" id="noise"></div>
+
+  <script>
+    // Generate green “gobbledegook” to fill the page
+    const el = document.getElementById("noise");
+    const alphabet = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-={}[]|:;<>?,./~";
+    const words = ["n0d3", "k3rn3l", "pr0c", "b1t", "sh4d0w", "v0id", "c1ph3r", "d4t4", "gl1tch", "p1ng", "h4sh", "r0ut3"];
+
+    function randInt(n){
+      return Math.floor(Math.random()*n);
+    }
+
+    function makeLine(len){
+      let s = "";
+      while (s.length < len){
+        if (Math.random() < 0.18){
+          s += words[randInt(words.length)] + " ";
+        } else {
+          const chunk = randInt(14) + 3;
+          for (let i=0;i<chunk;i++) s += alphabet[randInt(alphabet.length)];
+          s += " ";
+        }
+      }
+      return s.slice(0, len);
+    }
+
+function fill(){
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  const fontSize = parseFloat(getComputedStyle(el).fontSize) || 16;
+
+  // add extra characters and lines to ensure full coverage
+  const charsPerLine = Math.ceil(w / (fontSize * 0.55)) + 10;
+  const lines = Math.ceil(h / (fontSize * 1.15)) + 5;
+
+  let out = "";
+  for (let i = 0; i < lines; i++){
+    out += makeLine(charsPerLine) + "\n";
+  }
+
+  el.textContent = out;
+}
+
+    window.addEventListener("resize", fill);
+    fill();
+
+    setInterval(fill, 5000);
+  </script>
+
+</body>
+</html>

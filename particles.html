@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Something is coming.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0a0a0a;
+      --paper: #f7f5f0;
+      --accent: #e63a1e;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'DM Mono', monospace;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--paper);
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .ui {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 48px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .mark {
+      width: 36px; height: 36px;
+      position: relative;
+    }
+    .mark::before, .mark::after {
+      content: '';
+      position: absolute;
+      background: var(--ink);
+    }
+    .mark::before { width: 36px; height: 2px; top: 50%; transform: translateY(-50%); }
+    .mark::after  { width: 2px; height: 36px; left: 50%; transform: translateX(-50%); }
+
+    .status {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.35;
+      animation: fadeIn 2s ease 1s both;
+    }
+
+    .center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(3rem, 9vw, 8rem);
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      mix-blend-mode: multiply;
+      animation: riseIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+    }
+
+    h1 span {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .sub {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.4;
+      margin-top: 24px;
+      animation: fadeIn 2s ease 1.2s both;
+    }
+
+    .bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .coords {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink);
+      opacity: 0.25;
+      letter-spacing: 0.08em;
+      line-height: 1.8;
+      animation: fadeIn 2s ease 1.5s both;
+    }
+
+    .notify {
+      pointer-events: all;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: transparent;
+      border: 1px solid rgba(10,10,10,0.2);
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: fadeIn 2s ease 1.8s both;
+    }
+    .notify:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+      .ui { padding: 24px; }
+      .coords { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<div class="ui">
+  
+
+  <!-- <div class="center">
+    <h1>Soon<span>.</span></h1>
+    <p class="sub">Something is being made</p>
+  </div> -->
+
+  <div class="bottom-row">
+    <div class="coords" id="coords">
+      51.5074° N, 0.1278° W<br/>
+      <span id="ts">—</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ── timestamp ──
+  function tick() {
+    const d = new Date();
+    document.getElementById('ts').textContent =
+      d.toLocaleTimeString('en-GB', { hour12: false });
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ── canvas ──
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+
+  let W, H, t = 0;
+  const LINES = 120;
+  const PARTICLES = 280;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Simplex-like noise via sin combination
+  function noise(x, y, z) {
+    return (
+      Math.sin(x * 1.4 + z) * 0.5 +
+      Math.sin(y * 1.1 - z * 0.8) * 0.3 +
+      Math.sin((x + y) * 0.7 + z * 1.3) * 0.2
+    );
+  }
+
+  // Flow field lines
+  const lines = Array.from({ length: LINES }, () => ({
+    x: Math.random() * 1.4 - 0.2,
+    y: Math.random() * 1.4 - 0.2,
+    life: Math.random(),
+    maxLife: 0.006 + Math.random() * 0.006,
+    hue: Math.random() < 0.05 ? 'accent' : 'ink',
+  }));
+
+  // Floating particles
+  const particles = Array.from({ length: PARTICLES }, () => ({
+    x: Math.random(),
+    y: Math.random(),
+    r: 0.5 + Math.random() * 2.5,
+    speed: 0.00015 + Math.random() * 0.0003,
+    phase: Math.random() * Math.PI * 2,
+  }));
+
+  // Slow morphing circles
+  const blobs = [
+    { cx: 0.25, cy: 0.3,  r: 0.22, phase: 0 },
+    { cx: 0.75, cy: 0.65, r: 0.18, phase: 2 },
+    { cx: 0.5,  cy: 0.8,  r: 0.13, phase: 4 },
+  ];
+
+  function draw() {
+    t += 0.003;
+
+    // Fade trail
+    ctx.fillStyle = 'rgba(247,245,240,0.04)';
+    ctx.fillRect(0, 0, W, H);
+
+    const scale = 2.8;
+
+    // ── blob rings ──
+    blobs.forEach(b => {
+      const pr = (b.r + Math.sin(t * 0.4 + b.phase) * 0.04) * Math.min(W, H);
+      const px = b.cx * W + Math.sin(t * 0.2 + b.phase) * 30;
+      const py = b.cy * H + Math.cos(t * 0.17 + b.phase) * 20;
+      for (let i = 0; i < 3; i++) {
+        ctx.beginPath();
+        ctx.arc(px, py, pr - i * 18, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(10,10,10,${0.03 - i * 0.008})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    });
+
+    // ── flow field lines ──
+    lines.forEach(l => {
+      const nx = noise(l.x * scale, l.y * scale, t * 0.4);
+      const ny = noise(l.x * scale + 5.3, l.y * scale + 3.7, t * 0.4);
+      const angle = (nx + ny) * Math.PI * 2;
+
+      const px = l.x * W;
+      const py = l.y * H;
+      const step = 0.004;
+      const nx2 = l.x + Math.cos(angle) * step;
+      const ny2 = l.y + Math.sin(angle) * step;
+
+      const alpha = Math.sin(l.life * Math.PI) * 0.55;
+      ctx.beginPath();
+      ctx.moveTo(px, py);
+      ctx.lineTo(nx2 * W, ny2 * H);
+      ctx.strokeStyle = l.hue === 'accent'
+        ? `rgba(230,58,30,${alpha})`
+        : `rgba(10,10,10,${alpha * 0.6})`;
+      ctx.lineWidth = l.hue === 'accent' ? 1.5 : 0.8;
+      ctx.stroke();
+
+      l.x = nx2; l.y = ny2;
+      l.life += l.maxLife;
+
+      if (l.life >= 1 || l.x < -0.1 || l.x > 1.1 || l.y < -0.1 || l.y > 1.1) {
+        l.x = Math.random() * 1.4 - 0.2;
+        l.y = Math.random() * 1.4 - 0.2;
+        l.life = 0;
+        l.hue = Math.random() < 0.05 ? 'accent' : 'ink';
+      }
+    });
+
+    // ── particles ──
+    particles.forEach(p => {
+      const angle = noise(p.x * 3, p.y * 3, t * 0.3 + p.phase) * Math.PI * 4;
+      p.x += Math.cos(angle) * p.speed;
+      p.y += Math.sin(angle) * p.speed;
+      if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
+      if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(10,10,10,0.12)';
+      ctx.fill();
+    });
+
+    // ── subtle grid pulse ──
+    const gridAlpha = 0.018 + Math.sin(t * 0.5) * 0.006;
+    ctx.strokeStyle = `rgba(10,10,10,${gridAlpha})`;
+    ctx.lineWidth = 0.5;
+    const cell = Math.min(W, H) / 10;
+    for (let x = 0; x < W; x += cell) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += cell) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+</script>
+</body>
+</html>
